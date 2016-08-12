@@ -9,6 +9,7 @@
 
 	<script type="text/javascript">
 		var carAnswers = [
+			"Datsun",
 			"Honda",
 			"Infiniti",
 			"Isuzu",
@@ -21,14 +22,12 @@
 			"Toyota",
 			"Hyundai",
 			"Kia",
-			"Oullim Motors",
 			"Holden",
 			"Gillet",
 			"Alpine",
 			"Bugatti",
 			"Citroen",
 			"Hommell",
-			"Pescarolo",
 			"Peugeot",
 			"Renault",
 			"Audi",
@@ -66,9 +65,7 @@
 			"Triumph",
 			"TVR",
 			"Vauxhall",
-			"HPA Motorsports",
 			"Acura",
-			"AEM",
 			"Buick",
 			"Cadillac",
 			"Callaway",
@@ -92,7 +89,29 @@
 			return Math.floor(Math.random()*max);
 		}
 
-		var randIndex = randomRange(carAnswers.length);
+		
+
+		//var div = document.createElement("div")
+		//div.className = 'hiddenWord';
+		
+		document.onkeyup = function(event) {
+			var randIndex = randomRange(carAnswers.length);
+			var currentWord = carAnswers[randIndex].toUpperCase();
+
+		    var div = document.createElement('div');
+			div.setAttribute('class', 'myclass');
+			
+			document.body.appendChild(div);
+			div.innerHTML = currentWord;
+			var letterChoice = String.fromCharCode(event.keyCode).toUpperCase();
+
+			for (x in currentWord){
+				console.log(currentWord[x]);
+			}
+}
+
+		
+		
 
 
 	</script>
