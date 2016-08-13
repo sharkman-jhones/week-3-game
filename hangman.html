@@ -7,7 +7,31 @@
 	<h1>Hangman: Cars Edition</h1>
 	<h2>Press any key to Start!</h2>
 
-	<div id="wordPlace"></div>
+	<div id="winCounter">
+		Wins: 0
+	</div>
+	
+	<br>
+	
+	<div id="lossCounter">
+		Losses: 0
+	</div>
+	
+	<br>
+	
+	<div id="guessLeftCounter">
+		Guesses Left: 5
+	</div>
+	
+	<br>
+	
+	<div id="guessSoFarCounter">
+		Your Guesses so far:
+	</div>
+	<hr>	
+	<div id="wordPlace">
+		
+	</div>
 
 	<script type="text/javascript">
 		var win = 0;
@@ -115,16 +139,17 @@
 					hiddenWord.push('_ ');
 				}
 			}
-			console.log(hiddenWord);
-			document.getElementById('wordPlace').innerHtml = hiddenWord;
-
+			document.getElementById("wordPlace").innerHTML = hiddenWord;
 
 
 			}
 		
 		document.onkeyup = function(event) {
-			var letterChoice = String.fromCharCode(event.keyCode).toUpperCase();
-			console.log(letterChoice);
+			var userInput = String.fromCharCode(event.keyCode).toUpperCase();
+			console.log(userInput);
+			for (x in currentWord){
+				if (currentWord.indexOf(userInput) !== -1)
+			}
 		}
 
 		
