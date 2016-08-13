@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Hangman!</title>
+</head>
+<body>
+	<h1>Hangman: Cars Edition</h1>
+	<h2>Press any key to Start!</h2>
+
+	<div id="wordPlace"></div>
+
+	<script type="text/javascript">
+		var win = 0;
+		var lose = 0;
+		var triesLeft = 6;
+		var hiddenWord = [];
+		var guessList = [];
+		var carAnswers = [
+			"Datsun",
+			"Honda",
+			"Infiniti",
+			"Isuzu",
+			"Lexus",
+			"Mazda",
+			"Mitsubishi",
+			"Nissan",
+			"Subaru",
+			"Suzuki",
+			"Toyota",
+			"Hyundai",
+			"Kia",
+			"Holden",
+			"Gillet",
+			"Alpine",
+			"Bugatti",
+			"Citroen",
+			"Hommell",
+			"Peugeot",
+			"Renault",
+			"Audi",
+			"BMW",
+			"Mercedes-Benz",
+			"Mini",
+			"Opel",
+			"Volkswagen",
+			"Alfa Romeo",
+			"Autobianchi",
+			"Cizeta",
+			"Ferrari",
+			"Fiat",
+			"Lamborghini",
+			"Lancia",
+			"Maserati",
+			"Pagani",
+			"Spyker",
+			"SEAT",
+			"Volvo",
+			"AC Cars",
+			"Aston Martin",
+			"Bentley",
+			"Blitz",
+			"Caterham",
+			"Ginetta",
+			"Jaguar",
+			"Jensen",
+			"Land Rover",
+			"Lister",
+			"Lotus",
+			"Marcos",
+			"McLaren",
+			"MG",
+			"Triumph",
+			"TVR",
+			"Vauxhall",
+			"Acura",
+			"Buick",
+			"Cadillac",
+			"Callaway",
+			"Chaparral",
+			"Chevrolet",
+			"Chrysler",
+			"DMC",
+			"Dodge",
+			"Eagle",
+			"Ford",
+			"Mercury",
+			"Panoz",
+			"Plymouth",
+			"Pontiac",
+			"Saleen",
+			"Scion",
+			"Shelby",
+			"Tesla Motors"];
+
+		function randomRange(max) {
+			return Math.floor(Math.random()*max);
+		}
+
+		
+		function theGame(){
+			var randIndex = randomRange(carAnswers.length);
+			var currentWord = carAnswers[randIndex].toUpperCase();
+			console.log(currentWord);
+
+			for (x = 0; x < currentWord.length; x++){
+				if(currentWord[x] == ' '){
+					hiddenWord.push(' ');
+				}
+
+				else if(currentWord[x] == '-'){
+					hiddenWord.push('-')
+				}
+
+				else{
+					hiddenWord.push('_ ');
+				}
+			}
+			console.log(hiddenWord);
+			document.getElementById('wordPlace').innerHtml = hiddenWord;
+
+
+
+			}
+		
+		document.onkeyup = function(event) {
+			var letterChoice = String.fromCharCode(event.keyCode).toUpperCase();
+			console.log(letterChoice);
+		}
+
+		
+		
+
+theGame();
+	</script>
+
+</body>
+</html>

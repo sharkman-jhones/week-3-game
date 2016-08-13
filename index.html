@@ -1,119 +1,128 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Hangman!</title>
+	<title>The Psychic Game</title>
 </head>
 <body>
-	<h1>Hangman: Cars Edition</h1>
-	<h2>Press any key to Start!</h2>
+<h1>The Psychic Game</h1>
+
+<h2>Guess What letter I'm thinking of!</h2>
+<!--<h5>Press Spacebar to restart.</h5>-->
+
+	<div id="winCounter">
+		Wins: 0
+	</div>
+	
+	<br>
+	
+	<div id="lossCounter">
+		Losses: 0
+	</div>
+	
+	<br>
+	
+	<div id="guessLeftCounter">
+		Guesses Left: 10
+	</div>
+	
+	<br>
+	
+	<div id="guessSoFarCounter">
+		Your Guesses so far:
+	</div>
+
+	<div id="gameOverDiv">
+	</div>
 
 	<script type="text/javascript">
-		var carAnswers = [
-			"Datsun",
-			"Honda",
-			"Infiniti",
-			"Isuzu",
-			"Lexus",
-			"Mazda",
-			"Mitsubishi",
-			"Nissan",
-			"Subaru",
-			"Suzuki",
-			"Toyota",
-			"Hyundai",
-			"Kia",
-			"Holden",
-			"Gillet",
-			"Alpine",
-			"Bugatti",
-			"Citroen",
-			"Hommell",
-			"Peugeot",
-			"Renault",
-			"Audi",
-			"BMW",
-			"Mercedes-Benz",
-			"Mini",
-			"Opel",
-			"Volkswagen",
-			"Alfa Romeo",
-			"Autobianchi",
-			"Cizeta",
-			"Ferrari",
-			"Fiat",
-			"Lamborghini",
-			"Lancia",
-			"Maserati",
-			"Pagani",
-			"Spyker",
-			"SEAT",
-			"Volvo",
-			"AC Cars",
-			"Aston Martin",
-			"Bentley",
-			"Blitz",
-			"Caterham",
-			"Ginetta",
-			"Jaguar",
-			"Jensen",
-			"Land Rover",
-			"Lister",
-			"Lotus",
-			"Marcos",
-			"McLaren",
-			"MG",
-			"Triumph",
-			"TVR",
-			"Vauxhall",
-			"Acura",
-			"Buick",
-			"Cadillac",
-			"Callaway",
-			"Chaparral",
-			"Chevrolet",
-			"Chrysler",
-			"DMC",
-			"Dodge",
-			"Eagle",
-			"Ford",
-			"Mercury",
-			"Panoz",
-			"Plymouth",
-			"Pontiac",
-			"Saleen",
-			"Scion",
-			"Shelby",
-			"Tesla Motors"];
+		var letters = [
+			"a",
+			"b",
+			"c",
+			"d",
+			"e",
+			"f",
+			"g",
+			"h",
+			"i",
+			"j",
+			"k",
+			"l",
+			"m",
+			"n",
+			"o",
+			"p",
+			"q",
+			"r",
+			"s",
+			"t",
+			"u",
+			"v",
+			"w",
+			"x",
+			"y",
+			"z"];
 
 		function randomRange(max) {
 			return Math.floor(Math.random()*max);
 		}
+		var win = 0;
+		var lose = 0;
+		var triesLeft = 10;
+		var guessList = [];
 
-		
+		function theGame(){
+			var randIndex = randomRange(letters.length);
+			var currentLetter = letters[randIndex].toLowerCase();
+			document.onkeyup = function(event){
+			var userInput = String.fromCharCode(event.keyCode).toLowerCase();
+			console.log(currentLetter);
 
-		//var div = document.createElement("div")
-		//div.className = 'hiddenWord';
-		
-		document.onkeyup = function(event) {
-			var randIndex = randomRange(carAnswers.length);
-			var currentWord = carAnswers[randIndex].toUpperCase();
+				if (triesLeft > 0){
 
-		    var div = document.createElement('div');
-			div.setAttribute('class', 'myclass');
-			
-			document.body.appendChild(div);
-			div.innerHTML = currentWord;
-			var letterChoice = String.fromCharCode(event.keyCode).toUpperCase();
+					if (currentLetter == userInput){
+						win++;
+						document.getElementById("winCounter").innerHTML = "<h3> You Win!!!</h3> Wins: " + win;
+						triesLeft = 0;
+						document.getElementById("gameOverDiv").innerHTML = "<h1>The Game is over!<h1><hr>Press SpaceBar to begin again!";
+					    if(event.keyCode == 32){
+					        triesLeft = 10;
+					        document.getElementById("winCounter").innerHTML = "Wins: " + win;
+							document.getElementById("guessLeftCounter").innerHTML = "Guesses Left: 10";
+							guessList = [];
+							document.getElementById("guessSoFarCounter").innerHTML = "Your Guesses so far: " + guessList;
+					        document.getElementById("gameOverDiv").innerHTML = "";
+					        theGame();
+					    }
+					    
+					}
 
-			for (x in currentWord){
-				console.log(currentWord[x]);
+					else {
+						lose++;
+						triesLeft--;
+						guessList.push(userInput);
+						document.getElementById("lossCounter").innerHTML = "Losses: " + lose;
+						document.getElementById("guessLeftCounter").innerHTML = "Guesses Left: " + triesLeft;
+						document.getElementById("guessSoFarCounter").innerHTML = "Your Guesses so far: " + guessList;
+					}
+				}
+
+				else{
+					document.getElementById("gameOverDiv").innerHTML = "<h1>The Game is over!<h1><hr>Press SpaceBar to begin again!"
+					    if(event.keyCode == 32){
+					        triesLeft = 10;
+					        document.getElementById("winCounter").innerHTML = "Wins: " + win;
+							document.getElementById("guessLeftCounter").innerHTML = "Guesses Left: 10";
+							guessList = [];
+					        document.getElementById("gameOverDiv").innerHTML = "";
+					        theGame();
+					    }
+					
+
+				}
 			}
-}
-
-		
-		
-
-
+		}
+		theGame();
 	</script>
 
 </body>
