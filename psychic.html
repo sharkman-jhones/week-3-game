@@ -30,6 +30,9 @@
 		Your Guesses so far:
 	</div>
 
+	<div id="gameOverDiv">
+	</div>
+
 	<script type="text/javascript">
 		var letters = [
 			"a",
@@ -62,47 +65,64 @@
 		function randomRange(max) {
 			return Math.floor(Math.random()*max);
 		}
-			var Win = 0;
-			var Lose = 0;
-			var Guess = 0;
-			var triesLeft = 10;
-			var guessList = [];
+		var win = 0;
+		var lose = 0;
+		var triesLeft = 10;
+		var guessList = [];
+
+		function theGame(){
 			var randIndex = randomRange(letters.length);
 			var currentLetter = letters[randIndex].toLowerCase();
-
-
 			document.onkeyup = function(event){
-				var userInput = String.fromCharCode(event.keyCode).toLowerCase();
+			var userInput = String.fromCharCode(event.keyCode).toLowerCase();
 				console.log(currentLetter);
-				console.log(userInput);
 
 				if (triesLeft > 0){
 
 					if (currentLetter == userInput){
-
-						Win++;
-						document.getElementById("winCounter").innerHTML = "<h3> You Win!!!</h3> Wins: " + Win;
+						win++;
+						document.getElementById("winCounter").innerHTML = "<h3> You Win!!!</h3> Wins: " + win;
 						triesLeft = 0;
+						document.getElementById("gameOverDiv").innerHTML = "<h1>The Game is over!<h1><hr>Press SpaceBar to begin again!"
+					document.body.onkeyup = function(e){
+					    if(e.keyCode == 32){
+					        triesLeft = 10;
+					        document.getElementById("winCounter").innerHTML = "Wins: " + win;
+							document.getElementById("guessLeftCounter").innerHTML = "Guesses Left: 10";
+							guessList = [];
+					        document.getElementById("gameOverDiv").innerHTML = "";
+					        theGame();
+					    }
+					    }
 					}
 
 					else {
-						Lose++;
+						lose++;
 						triesLeft--;
 						guessList.push(userInput);
-						document.getElementById("lossCounter").innerHTML = "Losses: " + Lose;
+						document.getElementById("lossCounter").innerHTML = "Losses: " + lose;
 						document.getElementById("guessLeftCounter").innerHTML = "Guesses Left: " + triesLeft;
-						document.getElementById("guessSoFarCounter").innerHTML = "Your Guesses so far: |" + guessList +"|";
-						console.log(Lose);
-						console.log(triesLeft);
+						document.getElementById("guessSoFarCounter").innerHTML = "Your Guesses so far: " + guessList;
 					}
 				}
 
 				else{
-					return console.log("The Game is over!")
-					return console.log("Wins: " + Win);
-					return console.log("Losses: " + Lose);
+					document.getElementById("gameOverDiv").innerHTML = "<h1>The Game is over!<h1><hr>Press SpaceBar to begin again!"
+					document.body.onkeyup = function(e){
+					    if(e.keyCode == 32){
+					        triesLeft = 10;
+					        document.getElementById("winCounter").innerHTML = "Wins: " + win;
+							document.getElementById("guessLeftCounter").innerHTML = "Guesses Left: 10";
+							guessList = [];
+					        document.getElementById("gameOverDiv").innerHTML = "";
+					        theGame();
+					    }
+					}
+
 				}
 			}
+		}
+		theGame();
 	</script>
 
 </body>
