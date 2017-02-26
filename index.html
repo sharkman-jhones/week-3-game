@@ -7,123 +7,85 @@
 <h1>The Psychic Game</h1>
 
 <h2>Guess What letter I'm thinking of!</h2>
-<!--<h5>Press Spacebar to restart.</h5>-->
 
-	<div id="winCounter">
-		Wins: 0
-	</div>
+	<div id="winCounter"></div>	
+	<br>	
+	<div id="lossCounter"></div>	
+	<br>	
+	<div id="guessLeftCounter"></div>	
+	<br>	
+	<div id="guessSoFarCounter"></div>
 	
-	<br>
-	
-	<div id="lossCounter">
-		Losses: 0
-	</div>
-	
-	<br>
-	
-	<div id="guessLeftCounter">
-		Guesses Left: 10
-	</div>
-	
-	<br>
-	
-	<div id="guessSoFarCounter">
-		Your Guesses so far:
-	</div>
-
 	<div id="gameOverDiv">
+		<h1>The Game is over!<h1><hr>Press SpaceBar to begin again!
 	</div>
 
 	<script type="text/javascript">
-		var letters = [
-			"a",
-			"b",
-			"c",
-			"d",
-			"e",
-			"f",
-			"g",
-			"h",
-			"i",
-			"j",
-			"k",
-			"l",
-			"m",
-			"n",
-			"o",
-			"p",
-			"q",
-			"r",
-			"s",
-			"t",
-			"u",
-			"v",
-			"w",
-			"x",
-			"y",
-			"z"];
-
-		function randomRange(max) {
-			return Math.floor(Math.random()*max);
-		}
 		var win = 0;
 		var lose = 0;
 		var triesLeft = 10;
 		var guessList = [];
+		var letters = [
+			"a","b","c","d","e","f","g","h","i","j","k","l","m",
+			"n","o","p","q","r","s","t","u","v","w","x","y","z"
+		];
 
+		function setGame(){
+			console.log(`setGame has run, the loss counter is currently ${lose}`);
+			triesLeft = 10;
+			guessList = [];
+			//Randomly selects a letter from the list
+			var currentLetter = letters[Math.floor(Math.random()*letters.length)];
+			console.log(currentLetter);
+			//Sets HTML
+			document.getElementById("winCounter").innerHTML = "Wins: " + win;
+			document.getElementById("lossCounter").innerHTML = "Losses: " + lose;
+			document.getElementById("guessLeftCounter").innerHTML = "Guesses Left: 10";
+			document.getElementById("guessSoFarCounter").innerHTML = "Your Guesses so far: ";
+			document.getElementById("gameOverDiv").style.display = "none";
+		}
 		function theGame(){
-			var randIndex = randomRange(letters.length);
-			var currentLetter = letters[randIndex].toLowerCase();
+			console.log(`theGame has run, the loss counter is currently ${lose}`);
+			var currentLetter = letters[Math.floor(Math.random()*letters.length)];
+			setGame();
+			document.onkeyup = null;
 			document.onkeyup = function(event){
+			console.log(`The onkeyup event has run, the loss counter is currently ${lose}`);
 			var userInput = String.fromCharCode(event.keyCode).toLowerCase();
-			//console.log(currentLetter);
-			//Uncomment this if you want to cheat.
-
-				if (triesLeft > 0){
-
-					if (currentLetter == userInput){
-						win++;
-						document.getElementById("winCounter").innerHTML = "<h3> You Win!!!</h3> Wins: " + win;
-						triesLeft = 0;
-						document.getElementById("gameOverDiv").innerHTML = "<h1>The Game is over!<h1><hr>Press SpaceBar to begin again!";
-					    if(event.keyCode == 32){
-					        triesLeft = 10;
-					        document.getElementById("winCounter").innerHTML = "Wins: " + win;
-							document.getElementById("guessLeftCounter").innerHTML = "Guesses Left: 10";
-							guessList = [];
-							document.getElementById("guessSoFarCounter").innerHTML = "Your Guesses so far: " + guessList;
-					        document.getElementById("gameOverDiv").innerHTML = "";
-					        theGame();
-					    }
-					    
-					}
-
-					else {
-						lose++;
-						triesLeft--;
-						guessList.push(userInput);
-						document.getElementById("lossCounter").innerHTML = "Losses: " + lose;
-						document.getElementById("guessLeftCounter").innerHTML = "Guesses Left: " + triesLeft;
-						document.getElementById("guessSoFarCounter").innerHTML = "Your Guesses so far: " + guessList;
-					}
+			if (triesLeft > 1){
+					console.log(`The if statement checking if triesLeft is above zero has run, the loss counter is currently ${lose}`);
+				if (currentLetter === userInput){
+					triesLeft = 0;
+					console.log(`currentLetter is equal to userInput, increasing Win counter`)
+					win++;
+					document.getElementById("winCounter").innerHTML = "<h3> You Win!!!</h3> Wins: " + win;
+			        document.getElementById("gameOverDiv").style.display = "block";
+			        if(event.keyCode == 32){
+			        	console.log(`After winning, the if statement checking if the SpaceBar has been pressed has run, the loss counter is currently ${lose} and setGame will now run`);
+				        setGame();
+				    }
 				}
 
-				else{
-					document.getElementById("gameOverDiv").innerHTML = "<h1>The Game is over!<h1><hr>Press SpaceBar to begin again!"
-					    if(event.keyCode == 32){
-					        triesLeft = 10;
-					        document.getElementById("winCounter").innerHTML = "Wins: " + win;
-							document.getElementById("guessLeftCounter").innerHTML = "Guesses Left: 10";
-							guessList = [];
-					        document.getElementById("gameOverDiv").innerHTML = "";
-					        theGame();
-					    }
-					
-
+				else {
+					triesLeft--;
+					guessList.push(userInput);
+					document.getElementById("guessLeftCounter").innerHTML = "Guesses Left: " + triesLeft;
+					document.getElementById("guessSoFarCounter").innerHTML = "Your Guesses so far: " + guessList;
+					console.log(`triesLeft was reduced by one after a wrong input, the loss counter is currently ${lose}`);
 				}
 			}
+
+			else{
+				console.log(`the, the loss counter is currently ${lose}`);
+				lose++;
+				document.getElementById("gameOverDiv").style.display = "block";
+			    if(event.keyCode == 32){
+				    setGame();
+			    }
+	    	}
 		}
-		theGame();
+	}
+	theGame();
 	</script>
 
 </body>
