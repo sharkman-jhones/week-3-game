@@ -8,13 +8,10 @@
 
 <h2>Guess What letter I'm thinking of!</h2>
 
-	<div id="winCounter"></div>	
-	<br>	
-	<div id="lossCounter"></div>	
-	<br>	
-	<div id="guessLeftCounter"></div>	
-	<br>	
-	<div id="guessSoFarCounter"></div>
+	<p>Wins: <div id="winCounter"></div></p>
+	<p>Losses: <div id="lossCounter"></div></p>
+	<p>Guesses Left: <div id="triesLeftCounter"></div></p>	
+	<p>Your guesses so far: <div id="guessSoFar"></div></p>
 	
 	<div id="gameOverDiv">
 		<h1>The Game is over!<h1><hr>Press SpaceBar to begin again!
@@ -25,53 +22,62 @@
 		var lose = 0;
 		var triesLeft = 10;
 		var guessList = [];
+		var currentLetter = null;
 		var letters = [
 			"a","b","c","d","e","f","g","h","i","j","k","l","m",
 			"n","o","p","q","r","s","t","u","v","w","x","y","z"
 		];
 
-		function setGame(){
-			console.log(`setGame has run, the loss counter is currently ${lose}`);
+
+
+
+		function updateCurrentLetter(){
+			this.currentLetter = letters[Math.floor(Math.random()*letters.length)];
+		}
+
+		function updateGuessList(){
+			document.getElementById("guessSoFar").innerHTML = guessList.join(", ")
+		}
+
+		function updateTriesLeft(){
+			document.getElementById("triesLeftCounter").innerHTML = triesLeft;
+		}
+
+		function resetGame(){
 			triesLeft = 10;
 			guessList = [];
-			//Randomly selects a letter from the list
-			var currentLetter = letters[Math.floor(Math.random()*letters.length)];
-			console.log(currentLetter);
-			//Sets HTML
-			document.getElementById("winCounter").innerHTML = "Wins: " + win;
-			document.getElementById("lossCounter").innerHTML = "Losses: " + lose;
-			document.getElementById("guessLeftCounter").innerHTML = "Guesses Left: 10";
-			document.getElementById("guessSoFarCounter").innerHTML = "Your Guesses so far: ";
+			updateCurrentLetter();
+			updateGuessList();
+			updateTriesLeft();
 			document.getElementById("gameOverDiv").style.display = "none";
 		}
-		function theGame(){
-			console.log(`theGame has run, the loss counter is currently ${lose}`);
-			var currentLetter = letters[Math.floor(Math.random()*letters.length)];
-			setGame();
-			document.onkeyup = null;
-			document.onkeyup = function(event){
-			console.log(`The onkeyup event has run, the loss counter is currently ${lose}`);
+
+		updateCurrentLetter();
+		updateTriesLeft();
+
+		document.onkeyup = function(event){
+			triesLeft--
 			var userInput = String.fromCharCode(event.keyCode).toLowerCase();
-			if (triesLeft > 1){
-					console.log(`The if statement checking if triesLeft is above zero has run, the loss counter is currently ${lose}`);
+			guessList.push(userInput);
+			updateTriesLeft();
+			updateGuessList();
+
+			if (triesLeft > 0){
 				if (currentLetter === userInput){
-					triesLeft = 0;
 					console.log(`currentLetter is equal to userInput, increasing Win counter`)
 					win++;
 					document.getElementById("winCounter").innerHTML = "<h3> You Win!!!</h3> Wins: " + win;
 			        document.getElementById("gameOverDiv").style.display = "block";
 			        if(event.keyCode == 32){
-			        	console.log(`After winning, the if statement checking if the SpaceBar has been pressed has run, the loss counter is currently ${lose} and setGame will now run`);
 				        setGame();
 				    }
 				}
 
 				else {
 					triesLeft--;
-					guessList.push(userInput);
+					
 					document.getElementById("guessLeftCounter").innerHTML = "Guesses Left: " + triesLeft;
-					document.getElementById("guessSoFarCounter").innerHTML = "Your Guesses so far: " + guessList;
-					console.log(`triesLeft was reduced by one after a wrong input, the loss counter is currently ${lose}`);
+					document.getElementById("guessSoFar").innerHTML = "Your Guesses so far: " + guessList;
 				}
 			}
 
@@ -81,11 +87,10 @@
 				document.getElementById("gameOverDiv").style.display = "block";
 			    if(event.keyCode == 32){
 				    setGame();
+		}
 			    }
 	    	}
-		}
-	}
-	theGame();
+	
 	</script>
 
 </body>
