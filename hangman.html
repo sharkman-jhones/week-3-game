@@ -37,7 +37,7 @@
 		var win = 0;
 		var lose = 0;
 		var triesLeft = 6;
-		var hiddenWord = [];
+		var blanks = [];
 		var guessList = [];
 		var carAnswers = [
 			"Datsun",
@@ -115,31 +115,30 @@
 			"Scion",
 			"Shelby",
 			"Tesla Motors"];
+		var currentWord = carAnswers[Math.floor(Math.random() * carAnswers.length)];
 
-		function randomRange(max) {
+		/*function randomRange(max) {
 			return Math.floor(Math.random()*max);
-		}
+		}*/
 
 		
 		function theGame(){
-			var randIndex = randomRange(carAnswers.length);
-			var currentWord = carAnswers[randIndex].toUpperCase();
 			console.log(currentWord);
 
 			for (x = 0; x < currentWord.length; x++){
 				if(currentWord[x] == ' '){
-					hiddenWord.push(' ');
+					blanks.push(' ');
 				}
 
 				else if(currentWord[x] == '-'){
-					hiddenWord.push('-')
+					blanks.push('-')
 				}
 
 				else{
-					hiddenWord.push('_ ');
+					blanks.push('');
 				}
 			}
-			document.getElementById("wordPlace").innerHTML = hiddenWord;
+			document.getElementById("wordPlace").innerHTML = blanks;
 
 
 			}
@@ -147,9 +146,9 @@
 		document.onkeyup = function(event) {
 			var userInput = String.fromCharCode(event.keyCode).toUpperCase();
 			console.log(userInput);
-			for (x in currentWord){
+			/*for (x in currentWord){
 				if (currentWord.indexOf(userInput) !== -1)
-			}
+			}*/
 		}
 
 		
