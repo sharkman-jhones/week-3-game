@@ -8,90 +8,93 @@
 
 <h2>Guess What letter I'm thinking of!</h2>
 
-	<p>Wins: <div id="winCounter"></div></p>
-	<p>Losses: <div id="lossCounter"></div></p>
-	<p>Guesses Left: <div id="triesLeftCounter"></div></p>	
-	<p>Your guesses so far: <div id="guessSoFar"></div></p>
+	<p>Wins: <span id="winCounter"></span></p>
+	<p>Losses: <span id="lossCounter"></span></p>
+	<p>Tries Left: <span id="triesLeftCounter"></span></p>	
+	<p>Your guesses so far: <span id="guessSoFar"></span></p>
 	
-	<div id="gameOverDiv">
-		<h1>The Game is over!<h1><hr>Press SpaceBar to begin again!
+	<div id="gameOverDiv" style="display:none;">
+		<h1>The Game is over!<h1><hr>Press any key to begin again!
 	</div>
 
-	<script type="text/javascript">
-		var win = 0;
-		var lose = 0;
-		var triesLeft = 10;
-		var guessList = [];
-		var currentLetter = null;
-		var letters = [
-			"a","b","c","d","e","f","g","h","i","j","k","l","m",
-			"n","o","p","q","r","s","t","u","v","w","x","y","z"
-		];
+<script type="text/javascript">
+	var win = 0;
+	var lose = 0;
+	var triesLeft = 10;
+	var guessList = [];
+	var currentLetter = null;
+	var userInput = null;
+	var gameActive = true;
+	var letters = [
+		"a","b","c","d","e","f","g","h","i","j","k","l","m",
+		"n","o","p","q","r","s","t","u","v","w","x","y","z"
+	];
 
 
+	function updateWinLoss(){
+		document.getElementById("winCounter").innerHTML = win;
+		document.getElementById("lossCounter").innerHTML = lose;
+	}
 
+	function updateCurrentLetter(){
+		this.currentLetter = letters[Math.floor(Math.random()*letters.length)];
+		console.log(this.currentLetter);
+	}
 
-		function updateCurrentLetter(){
-			this.currentLetter = letters[Math.floor(Math.random()*letters.length)];
-		}
+	function updateGuessList(){
+		document.getElementById("guessSoFar").innerHTML = guessList.join(", ")
+	}
 
-		function updateGuessList(){
-			document.getElementById("guessSoFar").innerHTML = guessList.join(", ")
-		}
+	function updateTriesLeft(){
+		document.getElementById("triesLeftCounter").innerHTML = triesLeft;
+	}
 
-		function updateTriesLeft(){
-			document.getElementById("triesLeftCounter").innerHTML = triesLeft;
-		}
-
-		function resetGame(){
-			triesLeft = 10;
-			guessList = [];
-			updateCurrentLetter();
-			updateGuessList();
-			updateTriesLeft();
-			document.getElementById("gameOverDiv").style.display = "none";
-		}
-
+	function resetGame(){
+		triesLeft = 10;
+		guessList = [];
+		gameActive = true;
 		updateCurrentLetter();
+		updateGuessList();
 		updateTriesLeft();
+		document.getElementById("gameOverDiv").style.display = "none";
+	}
+	resetGame();
 
-		document.onkeyup = function(event){
-			triesLeft--
-			var userInput = String.fromCharCode(event.keyCode).toLowerCase();
-			guessList.push(userInput);
-			updateTriesLeft();
+	document.onkeyup = function(event){
+		if (gameActive === true){
+			userInput = String.fromCharCode(event.keyCode).toLowerCase();
 			updateGuessList();
-
+		    
 			if (triesLeft > 0){
 				if (currentLetter === userInput){
-					console.log(`currentLetter is equal to userInput, increasing Win counter`)
 					win++;
-					document.getElementById("winCounter").innerHTML = "<h3> You Win!!!</h3> Wins: " + win;
+					updateWinLoss();
 			        document.getElementById("gameOverDiv").style.display = "block";
-			        if(event.keyCode == 32){
-				        setGame();
-				    }
+			        gameActive = false;
 				}
 
 				else {
 					triesLeft--;
-					
-					document.getElementById("guessLeftCounter").innerHTML = "Guesses Left: " + triesLeft;
-					document.getElementById("guessSoFar").innerHTML = "Your Guesses so far: " + guessList;
+					guessList.push(userInput);
+					updateGuessList();
+					updateTriesLeft();
 				}
 			}
 
 			else{
-				console.log(`the, the loss counter is currently ${lose}`);
+				gameActive = false;
 				lose++;
+				updateWinLoss();
 				document.getElementById("gameOverDiv").style.display = "block";
-			    if(event.keyCode == 32){
-				    setGame();
+			}
+    	}
+
+		else{
+			resetGame();
 		}
-			    }
-	    	}
-	
-	</script>
+    }
+
+</script>
 
 </body>
 </html>

@@ -5,152 +5,15 @@
 </head>
 <body>
 	<h1>Hangman: Cars Edition</h1>
-	<h2>Press any key to Start!</h2>
+	<h2 id="anyKeyLine">Press any key to Start!</h2>
 
-	<div id="winCounter">
-		Wins: 0
-	</div>
-	
-	<br>
-	
-	<div id="lossCounter">
-		Losses: 0
-	</div>
-	
-	<br>
-	
-	<div id="guessLeftCounter">
-		Guesses Left: 5
-	</div>
-	
-	<br>
-	
-	<div id="guessSoFarCounter">
-		Your Guesses so far:
-	</div>
+	<p>Wins: <span id="winCounter"></span></p>	
+	<p>Losses: <span id="lossCounter"></span></p>
+	<p>Guesses Left: <span id="guessesLeftCounter"></span></p>
+	<p>Your Guesses so far: <span id="guessesSoFar"></span></p>
 	<hr>	
-	<div id="wordPlace">
-		
-	</div>
-
-	<script type="text/javascript">
-		var win = 0;
-		var lose = 0;
-		var triesLeft = 6;
-		var blanks = [];
-		var guessList = [];
-		var carAnswers = [
-			"AC Cars",
-			"Acura",
-			"Alfa Romeo",
-			"Alpine",
-			"Aston Martin",
-			"Audi",
-			"Autobianchi",
-			"Bentley",
-			"Blitz",
-			"BMW",
-			"Bugatti",
-			"Buick",
-			"Cadillac",
-			"Chevrolet",
-			"Chrysler",
-			"Citroen",
-			"Cizeta",
-			"Datsun",
-			"DMC",
-			"Dodge",
-			"Eagle",
-			"Ferrari",
-			"Fiat",
-			"Ford",
-			"Gillet",
-			"Ginetta",
-			"Holden",
-			"Hommell",
-			"Honda",
-			"Hyundai",
-			"Infiniti",
-			"Isuzu",
-			"Jaguar",
-			"Jensen",
-			"Kia",
-			"Marcos",
-			"Maserati",
-			"Mazda",
-			"McLaren",
-			"Mercedes-Benz",
-			"Mercury",
-			"MG",
-			"Mini",
-			"Mitsubishi",
-			"Lamborghini",
-			"Lancia",
-			"Land Rover",
-			"Lexus",
-			"Lister",
-			"Lotus",
-			"Nissan",
-			"Opel",
-			"Pagani",
-			"Panoz",
-			"Peugeot",
-			"Plymouth",
-			"Pontiac",
-			"Renault",
-			"Saleen",
-			"Scion",
-			"SEAT",
-			"Shelby",
-			"Spyker",
-			"Subaru",
-			"Suzuki",
-			"Tesla";
-			"Toyota",
-			"Triumph",
-			"TVR",
-			"Vauxhall",
-			"Volkswagen",
-			"Volvo",
-		var currentWord = carAnswers[Math.floor(Math.random() * carAnswers.length)];
-
-
-
-		
-		function setGame(){
-			console.log(currentWord);
-
-			for (x = 0; x < currentWord.length; x++){
-				if(currentWord[x] == ' '){
-					blanks.push(' ');
-				}
-
-				else if(currentWord[x] == '-'){
-					blanks.push('-')
-				}
-
-				else{
-					blanks.push('');
-				}
-			}
-			document.getElementById("wordPlace").innerHTML = blanks;
-
-
-			}
-		
-		document.onkeyup = function(event) {
-			var userInput = String.fromCharCode(event.keyCode).toUpperCase();
-			console.log(userInput);
-			/*for (x in currentWord){
-				if (currentWord.indexOf(userInput) !== -1)
-			}*/
-		}
-
-		
-		
-
-theGame();
-	</script>
+	<div id="wordPlace"></div>
+	<script type="text/javascript" src="hangmanGame.js"></script>
 
 </body>
 </html>
