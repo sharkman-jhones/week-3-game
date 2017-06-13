@@ -79,13 +79,18 @@ var lose = 0;
 var guessesLeft = 6;
 var blanks = [];
 var guessList = [];
-var currentWord = null;
-var gameActive = null;
-var userInput;
+var currentWord;
+var gameActive = true;
+
+/*
+
+
+
+*/
 
 function setWord(){
 	this.currentWord = carAnswers[Math.floor(Math.random() * carAnswers.length)];
-	console.log(this.currentWord);
+	console.log(this.currentWord.toUpperCase());
 }
 
 function updateWinLoss(){
@@ -98,12 +103,16 @@ function updateGuessesLeft(){
 }
 
 function updateGuessList(){
-	document.getElementById("guessesSofar").innerHTML = guessList.join(", ")
+	document.getElementById("guessesSoFar").innerHTML = guessList;
+}
+
+function startGame(){
+
 }
 
 function resetGame(){
 	guessesLeft = 6;
-	blanks = [];
+	// blanks = [];
 	guessList = [];
 	gameActive = true;
 	updateGuessList();
@@ -111,36 +120,37 @@ function resetGame(){
 	setWord();
 }
 
+function generateBlanks(){
+	this.blanks = [];
+	for (i=0; i < currentWord.length; i++){
+		if (guessList.indexOf(currentWord[i]) === -1){
+			blanks.push("_");
+		}
+		else {
+			blanks.push(currentWord[i]);
+		}
 
+	}
+	document.getElementById("wordPlace").innerHTML = blanks;
 
-document.onkeyup = function(event){
-	if (gameActive === true){
-		userInput = String.fromCharCode(event.keyCode).toUpperCase;
+}
+
+function replaceWord(){
+	for (i=0; i < currentWord.length; i++){
+		if (guessList.indexOf(currentWord[i]) !== -1){
+				blanks[i].replace(blanks[i], currentWord[i]);
+		}
 	}
 }
 
-// function setGame(){
-// 	console.log(currentWord);
+setWord();
+generateBlanks();
 
-// 	for (x = 0; x < currentWord.length; x++){
-// 		if(currentWord[x] == ' '){
-// 			blanks.push(' ');
-// 		}
-
-// 		else if(currentWord[x] == '-'){
-// 			blanks.push('-')
-// 		}
-
-// 		else{
-// 			blanks.push('');
-// 		}
-// 	}
-// 	document.getElementById("wordPlace").innerHTML = blanks;
-
-
-// 	}
-
-// document.onkeyup = function(event) {
-// 	var userInput = String.fromCharCode(event.keyCode).toUpperCase();
-// 	console.log(userInput);
-// }
+document.onkeyup = function(event){
+	if (gameActive === true){
+		var userInput = String.fromCharCode(event.keyCode);
+		guessList.push(userInput);
+		updateGuessList();
+		replaceWord();
+	}
+}
